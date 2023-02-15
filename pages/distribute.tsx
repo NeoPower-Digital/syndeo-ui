@@ -11,10 +11,13 @@ import {
 
 interface DistributeProps {}
 
+const PAGE_TITLE = "Distributed rewards";
+
+// TODO: Use transaction to send to contract
 const Distribute: React.FC<DistributeProps> = () => {
   const points = 250;
   const awardedMembers = 15;
-  const funds = "$6,000";
+  const funds = 6000;
 
   return (
     <Stack gap={3}>
@@ -23,7 +26,7 @@ const Distribute: React.FC<DistributeProps> = () => {
           <ArrowBackIcon />
         </IconButton>
 
-        <Typography variant="h3">Distribute rewards</Typography>
+        <Typography variant="h4">{PAGE_TITLE}</Typography>
       </Stack>
 
       <Card>
@@ -59,10 +62,12 @@ const Distribute: React.FC<DistributeProps> = () => {
       <Card>
         <CardContent>
           <Stack direction="row" gap={2} alignItems="center">
-            <Typography variant="h2">💲</Typography>
+            <Typography variant="h2">💰</Typography>
 
             <Stack>
-              <Typography variant="h4">{funds}</Typography>
+              <Typography variant="h4">
+                {Intl.NumberFormat("en").format(funds)}
+              </Typography>
               <Typography variant="h5" color="text.secondary">
                 Funds
               </Typography>

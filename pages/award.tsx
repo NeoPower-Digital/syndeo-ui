@@ -1,3 +1,5 @@
+import { NextLinkComposed } from "@/components/Link";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   Button,
   IconButton,
@@ -6,8 +8,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { NextLinkComposed } from "@/components/Link";
 
 interface AwardProps {}
 
@@ -16,6 +16,7 @@ const DEFAULT_POINTS = 5;
 const PAGE_TITLE = "Award";
 const ACTION_LABEL = "Award points";
 
+// TODO: Use transaction to send to contract
 const Award: React.FC<AwardProps> = () => {
   return (
     <Stack gap={3}>
@@ -24,7 +25,7 @@ const Award: React.FC<AwardProps> = () => {
           <ArrowBackIcon />
         </IconButton>
 
-        <Typography variant="h3">{PAGE_TITLE}</Typography>
+        <Typography variant="h4">{PAGE_TITLE}</Typography>
       </Stack>
 
       <Stack gap={2}>

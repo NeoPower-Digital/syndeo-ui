@@ -1,10 +1,20 @@
 import { NextLinkComposed } from "@/components/Link";
+import WalletSelector from "@/components/WalletSelector";
 import { Button, Stack, Typography } from "@mui/material";
 import { Inter } from "@next/font/google";
+import { WalletAccount } from "@talismn/connect-wallets";
 
-export default function Home() {
+interface HomeProps {
+  account: WalletAccount;
+}
+
+const Home: React.FC<HomeProps> = ({ account }) => {
   return (
     <Stack gap={2}>
+      <Typography variant="caption">
+        Connected as: ({account?.name}) {account?.address}
+      </Typography>
+
       <Typography variant="h3">Choose an action:</Typography>
 
       <Button
@@ -24,4 +34,6 @@ export default function Home() {
       </Button>
     </Stack>
   );
-}
+};
+
+export default Home;

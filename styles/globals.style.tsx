@@ -7,6 +7,17 @@ const GlobalStyles: FunctionComponent = () => {
       styles={css`
         html {
           scroll-behavior: smooth;
+
+          --talisman-connect-control-background: #29333b;
+          --talisman-connect-control-foreground: inherit;
+          --talisman-connect-active-background: #1f2237;
+          --talisman-connect-active-foreground: inherit;
+          --talisman-connect-modal-background: #1b1e31;
+          --talisman-connect-modal-foreground: #fafafa;
+          --talisman-connect-button-background: var(
+            --talisman-connect-control-background
+          );
+          --talisman-connect-button-foreground: #fafafa;
         }
 
         body {
