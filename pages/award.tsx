@@ -14,7 +14,7 @@ interface AwardProps {}
 
 const MAX_POINTS = 10;
 const DEFAULT_POINTS = 5;
-const PAGE_TITLE = "Award";
+const PAGE_TITLE = "⭐ Award points";
 const ACTION_LABEL = "Award points";
 
 // TODO: Use transaction to send to contract
@@ -41,7 +41,7 @@ const Award: React.FC<AwardProps> = () => {
         <TextField
           required
           id="recipient"
-          label="Recipient"
+          label="👤 Recipient"
           value={recipient}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setRecipient(event.target.value);
@@ -50,7 +50,7 @@ const Award: React.FC<AwardProps> = () => {
 
         <Stack>
           <Typography id="input-slider" gutterBottom>
-            Points
+            ⭐ Points
           </Typography>
 
           <Slider

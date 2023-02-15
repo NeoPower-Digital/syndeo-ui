@@ -22,7 +22,7 @@ const truncate = (address: string): string => {
 const WalletWidget: React.FC<WalletWidgetProps> = ({ account, setAccount }) => {
   return (
     <Paper>
-      <Stack p={2} mb={2} direction="row" justifyContent="space-between">
+      <Stack p={2} mb={4} direction="row" justifyContent="space-between">
         <Stack direction="row" alignItems="center" gap={2}>
           {account ? (
             <AccountBalanceWalletIcon fontSize="large" />

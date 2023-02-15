@@ -12,7 +12,7 @@ import {
 
 interface DistributeProps {}
 
-const PAGE_TITLE = "Distributed rewards";
+const PAGE_TITLE = "💸 Distributed rewards";
 
 // TODO: Use transaction to send to contract
 const Distribute: React.FC<DistributeProps> = () => {
@@ -55,13 +55,11 @@ const Distribute: React.FC<DistributeProps> = () => {
         <Card key={index}>
           <CardContent>
             <Stack direction="row" gap={2} alignItems="center">
-              <Typography variant="h2">{icon}</Typography>
+              <Typography variant="h3">{icon}</Typography>
 
               <Stack>
-                <Typography variant="h4">{value}</Typography>
-                <Typography variant="h5" color="text.secondary">
-                  {label}
-                </Typography>
+                <Typography variant="h5">{value}</Typography>
+                <Typography color="text.secondary">{label}</Typography>
               </Stack>
             </Stack>
           </CardContent>

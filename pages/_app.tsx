@@ -6,6 +6,7 @@ import GlobalStyles from "@/styles/globals.style";
 import { THEME } from "@/styles/theme.style";
 import { CacheProvider } from "@emotion/react";
 import {
+  Alert,
   createTheme,
   CssBaseline,
   Paper,
@@ -40,9 +41,14 @@ export default function App({
 
       <ThemeProvider theme={responsiveFontSizes(createTheme(THEME))}>
         <Layout>
+          <Alert severity="info" sx={{ mb: 2 }}>
+            UI for demo purposes
+          </Alert>
           <WalletWidget account={account} setAccount={setAccount} />
 
-          <Component {...pageProps} account={account} />
+          <Paper sx={{ p: 2 }} variant="outlined">
+            <Component {...pageProps} account={account} />
+          </Paper>
         </Layout>
 
         <CssBaseline enableColorScheme />

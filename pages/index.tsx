@@ -1,5 +1,13 @@
 import { NextLinkComposed } from "@/components/Link";
-import { Button, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Divider,
+  MenuItem,
+  MenuList,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { WalletAccount } from "@talismn/connect-wallets";
 
 interface HomeProps {
@@ -10,26 +18,24 @@ const Home: React.FC<HomeProps> = ({ account }) => {
   return (
     <Stack gap={2}>
       <Typography variant="h3">Random DAO</Typography>
-      <Typography>Are you a member? Award points to other members</Typography>
+      <Typography>What do you want to do?</Typography>
 
-      <Button
-        variant="contained"
-        component={NextLinkComposed}
-        to={{ pathname: "award" }}
-      >
-        ⭐ Award points ⭐
-      </Button>
+      <Paper>
+        <MenuList>
+          <MenuItem component={NextLinkComposed} to={{ pathname: "award" }}>
+            ⭐ Award points
+          </MenuItem>
 
-      <Typography>Are you an admin? distribute the rewards!</Typography>
+          <Divider />
 
-      <Button
-        variant="contained"
-        component={NextLinkComposed}
-        to={{ pathname: "distribute" }}
-        color="secondary"
-      >
-        🚀 Distribute rewards 🚀
-      </Button>
+          <MenuItem
+            component={NextLinkComposed}
+            to={{ pathname: "distribute" }}
+          >
+            💸 Distribute rewards (ADMIN)
+          </MenuItem>
+        </MenuList>
+      </Paper>
     </Stack>
   );
 };
