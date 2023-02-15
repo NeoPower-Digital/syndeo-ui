@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import WalletSelector from "@/components/WalletSelector";
+import WalletWidget from "@/components/WalletWidget";
 import createEmotionCache from "@/styles/createEmotionCache";
 import GlobalStyles from "@/styles/globals.style";
 import { THEME } from "@/styles/theme.style";
@@ -7,9 +8,11 @@ import { CacheProvider } from "@emotion/react";
 import {
   createTheme,
   CssBaseline,
+  Paper,
   responsiveFontSizes,
   Stack,
   ThemeProvider,
+  Typography,
 } from "@mui/material";
 import { WalletAccount } from "@talismn/connect-wallets";
 import { useState } from "react";
@@ -37,9 +40,7 @@ export default function App({
 
       <ThemeProvider theme={responsiveFontSizes(createTheme(THEME))}>
         <Layout>
-          <Stack>
-            <WalletSelector setAccount={setAccount} />
-          </Stack>
+          <WalletWidget account={account} setAccount={setAccount} />
 
           <Component {...pageProps} account={account} />
         </Layout>

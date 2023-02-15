@@ -1,7 +1,5 @@
 import { NextLinkComposed } from "@/components/Link";
-import WalletSelector from "@/components/WalletSelector";
 import { Button, Stack, Typography } from "@mui/material";
-import { Inter } from "@next/font/google";
 import { WalletAccount } from "@talismn/connect-wallets";
 
 interface HomeProps {
@@ -11,11 +9,8 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({ account }) => {
   return (
     <Stack gap={2}>
-      <Typography variant="caption">
-        Connected as: ({account?.name}) {account?.address}
-      </Typography>
-
-      <Typography variant="h3">Choose an action:</Typography>
+      <Typography variant="h3">Random DAO</Typography>
+      <Typography>Are you a member? Award points to other members</Typography>
 
       <Button
         variant="contained"
@@ -25,10 +20,13 @@ const Home: React.FC<HomeProps> = ({ account }) => {
         ⭐ Award points ⭐
       </Button>
 
+      <Typography>Are you an admin? distribute the rewards!</Typography>
+
       <Button
         variant="contained"
         component={NextLinkComposed}
         to={{ pathname: "distribute" }}
+        color="secondary"
       >
         🚀 Distribute rewards 🚀
       </Button>

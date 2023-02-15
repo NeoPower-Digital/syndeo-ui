@@ -1,8 +1,8 @@
-import { Button, Typography } from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 import { WalletSelect } from "@talismn/connect-components";
 import { WalletAccount } from "@talismn/connect-wallets";
 import { useState } from "react";
-
+import LoginIcon from "@mui/icons-material/Login";
 interface WalletSelectorProps {
   setAccount: (account: WalletAccount) => void;
 }
@@ -19,14 +19,15 @@ const WalletSelector: React.FC<WalletSelectorProps> = ({ setAccount }) => {
       // The component that opens the WalletSelect Modal
       triggerComponent={
         <Button
-          variant="contained"
+          color="inherit"
           // `onClick` is optional here
           onClick={(wallets) => {
             // Do stuff with the supported wallets
             setIsOpen(true);
           }}
+          endIcon={<LoginIcon />}
         >
-          👛 Connect to wallet 👛
+          Connect
         </Button>
       }
       // Override the default header

@@ -8,6 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 
 interface AwardProps {}
 
@@ -18,6 +19,14 @@ const ACTION_LABEL = "Award points";
 
 // TODO: Use transaction to send to contract
 const Award: React.FC<AwardProps> = () => {
+  const [recipient, setRecipient] = useState("");
+  const [points, setPoints] = useState(DEFAULT_POINTS);
+
+  const handleSubmit = () => {
+    // TODO: Submit transaction
+    console.log({ recipient, points });
+  };
+
   return (
     <Stack gap={3}>
       <Stack direction="row" gap={2}>
@@ -29,7 +38,15 @@ const Award: React.FC<AwardProps> = () => {
       </Stack>
 
       <Stack gap={2}>
-        <TextField required id="recipient" label="Recipient" />
+        <TextField
+          required
+          id="recipient"
+          label="Recipient"
+          value={recipient}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setRecipient(event.target.value);
+          }}
+        />
 
         <Stack>
           <Typography id="input-slider" gutterBottom>
@@ -44,11 +61,17 @@ const Award: React.FC<AwardProps> = () => {
             defaultValue={DEFAULT_POINTS}
             aria-label="points"
             valueLabelDisplay="on"
+            value={points}
+            onChange={(event: Event, newValue: number | number[]) => {
+              setPoints(newValue as number);
+            }}
           />
         </Stack>
       </Stack>
 
-      <Button variant="contained">{ACTION_LABEL}</Button>
+      <Button variant="contained" onClick={handleSubmit}>
+        {ACTION_LABEL}
+      </Button>
     </Stack>
   );
 };

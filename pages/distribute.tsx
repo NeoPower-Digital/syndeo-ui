@@ -1,4 +1,5 @@
 import { NextLinkComposed } from "@/components/Link";
+import useQuery from "@/hooks/useQuery";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   Button,
@@ -15,9 +16,30 @@ const PAGE_TITLE = "Distributed rewards";
 
 // TODO: Use transaction to send to contract
 const Distribute: React.FC<DistributeProps> = () => {
-  const points = 250;
-  const awardedMembers = 15;
-  const funds = 6000;
+  const { points, awardedMembers, funds } = useQuery();
+
+  const organizationData = [
+    {
+      icon: "⭐",
+      value: points,
+      label: "Points assigned",
+    },
+    {
+      icon: "👤",
+      value: awardedMembers,
+      label: "Members awarded",
+    },
+    {
+      icon: "💰",
+      value: Intl.NumberFormat("en").format(funds),
+      label: "Funds",
+    },
+  ];
+
+  const handleClick = () => {
+    // TODO: Submit transaction
+    console.log("DISTRIBUTE!");
+  };
 
   return (
     <Stack gap={3}>
@@ -29,54 +51,26 @@ const Distribute: React.FC<DistributeProps> = () => {
         <Typography variant="h4">{PAGE_TITLE}</Typography>
       </Stack>
 
-      <Card>
-        <CardContent>
-          <Stack direction="row" gap={2} alignItems="center">
-            <Typography variant="h2">⭐</Typography>
+      {organizationData.map(({ icon, value, label }, index) => (
+        <Card key={index}>
+          <CardContent>
+            <Stack direction="row" gap={2} alignItems="center">
+              <Typography variant="h2">{icon}</Typography>
 
-            <Stack>
-              <Typography variant="h4">{points}</Typography>
-              <Typography variant="h5" color="text.secondary">
-                Points assigned
-              </Typography>
+              <Stack>
+                <Typography variant="h4">{value}</Typography>
+                <Typography variant="h5" color="text.secondary">
+                  {label}
+                </Typography>
+              </Stack>
             </Stack>
-          </Stack>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      ))}
 
-      <Card>
-        <CardContent>
-          <Stack direction="row" gap={2} alignItems="center">
-            <Typography variant="h2">👤</Typography>
-
-            <Stack>
-              <Typography variant="h4">{awardedMembers}</Typography>
-              <Typography variant="h5" color="text.secondary">
-                Members rewarded
-              </Typography>
-            </Stack>
-          </Stack>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardContent>
-          <Stack direction="row" gap={2} alignItems="center">
-            <Typography variant="h2">💰</Typography>
-
-            <Stack>
-              <Typography variant="h4">
-                {Intl.NumberFormat("en").format(funds)}
-              </Typography>
-              <Typography variant="h5" color="text.secondary">
-                Funds
-              </Typography>
-            </Stack>
-          </Stack>
-        </CardContent>
-      </Card>
-
-      <Button variant="contained">Distribute rewards</Button>
+      <Button variant="contained" onClick={handleClick}>
+        Distribute rewards
+      </Button>
     </Stack>
   );
 };
