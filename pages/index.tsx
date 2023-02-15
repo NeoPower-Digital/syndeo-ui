@@ -1,13 +1,5 @@
 import { NextLinkComposed } from "@/components/Link";
-import {
-  Button,
-  Divider,
-  MenuItem,
-  MenuList,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { MenuItem, MenuList, Paper, Stack, Typography } from "@mui/material";
 import { WalletAccount } from "@talismn/connect-wallets";
 
 interface HomeProps {
@@ -15,25 +7,33 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ account }) => {
+  const menuItems = [
+    {
+      path: "award",
+      label: "⭐ Award points",
+    },
+    {
+      path: "distribute",
+      label: "💸 Distribute rewards (ADMIN)",
+    },
+  ];
+
   return (
     <Stack gap={2}>
-      <Typography variant="h4">Random DAO</Typography>
+      <Typography variant="h4">🏠 Random DAO</Typography>
       <Typography>What do you want to do?</Typography>
 
       <Paper>
         <MenuList>
-          <MenuItem component={NextLinkComposed} to={{ pathname: "award" }}>
-            ⭐ Award points
-          </MenuItem>
-
-          <Divider />
-
-          <MenuItem
-            component={NextLinkComposed}
-            to={{ pathname: "distribute" }}
-          >
-            💸 Distribute rewards (ADMIN)
-          </MenuItem>
+          {menuItems.map(({ path, label }, index) => (
+            <MenuItem
+              key={index}
+              component={NextLinkComposed}
+              to={{ pathname: path }}
+            >
+              {label}
+            </MenuItem>
+          ))}
         </MenuList>
       </Paper>
     </Stack>

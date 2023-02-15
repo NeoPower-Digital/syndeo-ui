@@ -38,24 +38,6 @@ const GlobalStyles: FunctionComponent = () => {
           backdrop-filter: blur(8px);
           background-color: rgb(0, 0, 0, 0.1) !important;
         }
-
-        // Blue outline icons
-
-        .icon-outline > img,
-        img.icon-outline {
-          filter: contrast(0.9) saturate(0.7);
-        }
-
-        // Animations
-
-        @keyframes backgroundGradientRotate {
-          0% {
-            background-position: 0% 0%;
-          }
-          100% {
-            background-position: 100% 100%;
-          }
-        }
       `}
     />
   );

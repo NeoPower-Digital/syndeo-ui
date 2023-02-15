@@ -1,14 +1,15 @@
 import {
-  Container,
   AppBar as MUIAppBar,
+  Box,
+  Container,
+  Link,
   styled,
   Toolbar as MUIToolbar,
   Typography,
-  Box,
-  Link,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import Head from "next/head";
+import syndeoLogo from "@/public/syndeo.png";
+import Image from "next/image";
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -33,19 +34,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         ))}
       </Head>
 
-      <AppBar elevation={0}>
+      <AppBar elevation={0} enableColorOnDark>
         <Toolbar>
-          <Typography>Syndeo</Typography>
-          <Typography>
-            Built by{" "}
-            <Link href="https://neopower.digital" target="_blank">
-              NeoPower
-            </Link>{" "}
-          </Typography>
+          <Image
+            src={syndeoLogo}
+            alt="Picture of the author"
+            width={80}
+            height={52}
+          />
+          <Link color="inherit" href="https://neopower.digital" target="_blank">
+            Built by NeoPower
+          </Link>{" "}
         </Toolbar>
       </AppBar>
 
-      <LayoutOffset mb={2} />
+      <LayoutOffset mb={6} />
 
       <Container maxWidth="sm">{children}</Container>
     </>

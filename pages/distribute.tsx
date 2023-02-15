@@ -12,7 +12,7 @@ import {
 
 interface DistributeProps {}
 
-const PAGE_TITLE = "💸 Distributed rewards";
+const PAGE_TITLE = "💸 Distribute rewards";
 
 // TODO: Use transaction to send to contract
 const Distribute: React.FC<DistributeProps> = () => {
