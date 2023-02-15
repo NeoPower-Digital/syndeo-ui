@@ -17,7 +17,7 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({ account }) => {
   return (
     <Stack gap={2}>
-      <Typography variant="h3">Random DAO</Typography>
+      <Typography variant="h4">Random DAO</Typography>
       <Typography>What do you want to do?</Typography>
 
       <Paper>
