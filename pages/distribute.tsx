@@ -73,7 +73,7 @@ const Distribute: React.FC<DistributeProps> = () => {
   }, []);
 
   const handleSubmit = () => {
-    send("distributeRewards");
+    send("distributeRewards", null);
   };
 
   const handleSnackbarClose = (
