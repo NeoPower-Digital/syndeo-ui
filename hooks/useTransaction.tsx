@@ -49,7 +49,16 @@ const useTransaction = (
         gasLimit: gasLimitToSimulate,
       },
       ...params
-    ).then(({ gasRequired }) => {
+    ).then(({ gasRequired, result }) => {
+      console.log({ query_result: result });
+      if (!result.isOk) {
+        setIsLoading(false);
+        setIsError(true);
+        setIsFinished(true);
+
+        return;
+      }
+
       const gasLimit = api.registry.createType(
         "WeightV2",
         gasRequired
@@ -62,7 +71,7 @@ const useTransaction = (
         ...params
       )
         .signAndSend(accountAddress, (result) => {
-          console.log({ result });
+          console.log({ tx_result: result });
 
           if (result.status.isFinalized) {
             setIsLoading(false);
