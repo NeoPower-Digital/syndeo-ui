@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import WalletWidget from "@/components/WalletWidget";
+import { DEFAULT_CHAIN } from "@/constants/constants";
 import createEmotionCache from "@/styles/createEmotionCache";
 import GlobalStyles from "@/styles/globals.style";
 import { THEME } from "@/styles/theme.style";
@@ -37,7 +38,7 @@ export default function App({
         <ThemeProvider theme={responsiveFontSizes(createTheme(THEME))}>
           <Layout>
             <Alert severity="info" sx={{ mb: 2 }}>
-              UI for demo purposes
+              UI for demo purposes (Network: {DEFAULT_CHAIN.NAME})
             </Alert>
             <WalletWidget />
 

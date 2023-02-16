@@ -111,7 +111,12 @@ const Distribute: React.FC<DistributeProps> = () => {
 
               <Stack>
                 <Typography variant="h5">
-                  {dataLoading ? "..." : orgStats[key]}
+                  {dataLoading
+                    ? "..."
+                    : key !== "funds"
+                    ? orgStats[key]
+                    : parseFloat(orgStats[key].replace(/,/g, "")) /
+                      Math.pow(10, 12)}
                 </Typography>
                 <Typography color="text.secondary">{label}</Typography>
               </Stack>

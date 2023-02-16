@@ -8,17 +8,17 @@ import { WeightV2 } from "@polkadot/types/interfaces";
 import { useAtom } from "jotai";
 
 export interface OrgStats {
-  assignedPoints: number;
-  membersAwarded: number;
-  funds: number;
+  assignedPoints: string;
+  membersAwarded: string;
+  funds: string;
 }
 
 const MESSAGE = "getRewardsSummary";
 
 export const emptyStats = {
-  assignedPoints: 0,
-  membersAwarded: 0,
-  funds: 0,
+  assignedPoints: "0",
+  membersAwarded: "0",
+  funds: "0",
 };
 
 const emptyPromise: Promise<OrgStats> = new Promise(() => emptyStats);
