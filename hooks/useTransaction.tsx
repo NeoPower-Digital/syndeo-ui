@@ -7,30 +7,31 @@ import { Signer } from "@polkadot/api/types";
 import { WeightV2 } from "@polkadot/types/interfaces";
 import { useAtom } from "jotai";
 
-const MESSAGE_NAME = "award";
-const RECIPIENT = "5CMM6aqxmXvUyKGTxvEXb4zpkeK7HxYepmcJjh9zWkzr5Lbg";
-const POINTS = 5;
-
 const useTransaction = (
   setIsLoading: (value: boolean) => void,
   setIsFinished: (value: boolean) => void,
   setIsError: (value: boolean) => void
 ) => {
   const [account] = useAtom(accountAtom);
-  const [API] = useAtom(polkadotAPIAtom);
+  const [api] = useAtom(polkadotAPIAtom);
 
-  if (!API) return { send: () => {} };
+  if (!api) return { send: () => {} };
 
-  API.setSigner(account?.signer as Signer);
+  console.log("USE TRANSACTION", { account, api });
+
+  api.setSigner(account?.signer as Signer);
   const contract = new ContractPromise(
-    API,
+    api,
     metadata,
     DEFAULT_CHAIN.CONTRACT_ADDRESS
   );
 
   const accountAddress = account?.address || "";
 
-  const gasLimitToSimulate = API.registry.createType("WeightV2", {
+  if (!contract) return { send: () => {} };
+  if (!accountAddress) return { send: () => {} };
+
+  const gasLimitToSimulate = api.registry.createType("WeightV2", {
     refTime: Number.MAX_SAFE_INTEGER,
     proofSize: Number.MAX_SAFE_INTEGER,
   }) as WeightV2;
@@ -49,7 +50,7 @@ const useTransaction = (
       },
       ...params
     ).then(({ gasRequired }) => {
-      const gasLimit = API.registry.createType(
+      const gasLimit = api.registry.createType(
         "WeightV2",
         gasRequired
       ) as WeightV2;

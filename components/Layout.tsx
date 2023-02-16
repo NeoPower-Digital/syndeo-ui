@@ -31,10 +31,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [_, setAPI] = useAtom(polkadotAPIAtom);
 
   useEffect(() => {
+    console.log("LAYOUT EFFECT");
     const provider = new WsProvider(DEFAULT_CHAIN.URL);
 
     ApiPromise.create({ provider }).then(setAPI);
-  }, [setAPI]);
+  }, []);
 
   return (
     <>
