@@ -12,8 +12,7 @@ import {
   responsiveFontSizes,
   ThemeProvider,
 } from "@mui/material";
-import { WalletAccount } from "@talismn/connect-wallets";
-import { useState } from "react";
+import { Provider } from "jotai";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -30,26 +29,26 @@ export default function App({
   pageProps,
   emotionCache = clientSideEmotionCache,
 }: AppProps) {
-  const [account, setAccount] = useState<WalletAccount>();
-
   return (
-    <CacheProvider value={emotionCache}>
-      {globalStyles}
+    <Provider>
+      <CacheProvider value={emotionCache}>
+        {globalStyles}
 
-      <ThemeProvider theme={responsiveFontSizes(createTheme(THEME))}>
-        <Layout>
-          <Alert severity="info" sx={{ mb: 2 }}>
-            UI for demo purposes
-          </Alert>
-          <WalletWidget account={account} setAccount={setAccount} />
+        <ThemeProvider theme={responsiveFontSizes(createTheme(THEME))}>
+          <Layout>
+            <Alert severity="info" sx={{ mb: 2 }}>
+              UI for demo purposes
+            </Alert>
+            <WalletWidget />
 
-          <Paper sx={{ p: 4 }} variant="outlined">
-            <Component {...pageProps} account={account} />
-          </Paper>
-        </Layout>
+            <Paper sx={{ p: 4 }} variant="outlined">
+              <Component {...pageProps} />
+            </Paper>
+          </Layout>
 
-        <CssBaseline enableColorScheme />
-      </ThemeProvider>
-    </CacheProvider>
+          <CssBaseline enableColorScheme />
+        </ThemeProvider>
+      </CacheProvider>
+    </Provider>
   );
 }

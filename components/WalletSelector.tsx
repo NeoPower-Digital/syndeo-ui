@@ -1,13 +1,14 @@
-import { Button, IconButton, Typography } from "@mui/material";
+import { accountAtom } from "@/states/account.atom";
+import LoginIcon from "@mui/icons-material/Login";
+import { Button, Typography } from "@mui/material";
 import { WalletSelect } from "@talismn/connect-components";
 import { WalletAccount } from "@talismn/connect-wallets";
+import { useAtom } from "jotai";
 import { useState } from "react";
-import LoginIcon from "@mui/icons-material/Login";
-interface WalletSelectorProps {
-  setAccount: (account: WalletAccount) => void;
-}
+interface WalletSelectorProps {}
 
-const WalletSelector: React.FC<WalletSelectorProps> = ({ setAccount }) => {
+const WalletSelector: React.FC<WalletSelectorProps> = () => {
+  const [_, setAccount] = useAtom(accountAtom);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -34,14 +35,6 @@ const WalletSelector: React.FC<WalletSelectorProps> = ({ setAccount }) => {
       header={<Typography variant="h4">Connect wallet</Typography>}
       // If `showAccountsList={true}`, then account selection modal will show up after selecting the a wallet. Default is `false`.
       showAccountsList={true}
-      // Callback when the WalletSelect Modal is opened
-      // onWalletConnectOpen={(wallets) => console.log(wallets)}
-      // Callback when the WalletSelect Modal is closed
-      // onWalletConnectClose={() => console.log()}
-      // Callback when a wallet is selected on the WalletSelect Modal
-      // onWalletSelected={(wallet) => console.log(wallet)}
-      // Callback when the subscribed accounts for a selected wallet are updated
-      // onUpdatedAccounts={(accounts) => console.log(accounts)}
       // Callback when an account is selected on the WalletSelect Account Modal. Only relevant when `showAccountsList=true`
       onAccountSelected={(account: WalletAccount) => {
         console.log(account);
@@ -49,7 +42,7 @@ const WalletSelector: React.FC<WalletSelectorProps> = ({ setAccount }) => {
       }}
       // Callback when an error occurs. Also clears the error on Modal actions:
       // `onWalletConnectOpen`, `onWalletSelected`, `onAccountSelected` and `onWalletConnectClose`,
-      onError={(error) => console.log(error)}
+      onError={(error) => error && console.error(error)}
     />
   );
 };

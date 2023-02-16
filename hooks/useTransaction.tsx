@@ -1,49 +1,83 @@
+import metadata from "@/contracts/contract-metadata.json";
+import { accountAtom } from "@/states/account.atom";
+import { polkadotAPIAtom } from "@/states/polkadotAPI.atom";
 import { ApiPromise } from "@polkadot/api";
-import { WalletAccount } from "@talismn/connect-wallets";
+import { ContractPromise } from "@polkadot/api-contract";
+import { Signer } from "@polkadot/api/types";
 import { WeightV2 } from "@polkadot/types/interfaces";
-import useContract from "./useContract";
+import { useAtom } from "jotai";
+import { isConstructSignatureDeclaration } from "typescript";
+
+const MESSAGE_NAME = "award";
+const RECIPIENT = "5CMM6aqxmXvUyKGTxvEXb4zpkeK7HxYepmcJjh9zWkzr5Lbg";
+const POINTS = 5;
+const CONTRACT_ADDRESS = "5HC1Xhr1qwFbX3enSNVftFKPDVKdk4y1ypVxs3LtWM9ss9eC";
 
 const useTransaction = (
-  polkadotApi: ApiPromise,
-  account: WalletAccount,
-  messageName: string,
-  params: any
+  setIsLoading: (value: boolean) => void,
+  setIsFinished: (value: boolean) => void,
+  setIsError: (value: boolean) => void
 ) => {
-  const contract = useContract(polkadotApi);
+  const [account] = useAtom(accountAtom);
+  const [API] = useAtom(polkadotAPIAtom);
 
-  // ToDo: Replace params
-  return contract.query[messageName](
-    account?.address,
-    {
-      gasLimit: polkadotApi.registry.createType("WeightV2", {
-        refTime: Number.MAX_SAFE_INTEGER,
-        proofSize: Number.MAX_SAFE_INTEGER,
-      }) as WeightV2,
-    },
-    "5CMM6aqxmXvUyKGTxvEXb4zpkeK7HxYepmcJjh9zWkzr5Lbg",
-    5
-  ).then(({ gasRequired }) => {
-    const gasLimit = polkadotApi.registry.createType(
-      "WeightV2",
-      gasRequired
-    ) as WeightV2;
-    contract.tx[messageName](
+  if (!API) return { send: () => {} };
+
+  API.setSigner(account?.signer as Signer);
+  const contract = new ContractPromise(API, metadata, CONTRACT_ADDRESS);
+
+  const accountAddress = account?.address || "";
+
+  const gasLimitToSimulate = API.registry.createType("WeightV2", {
+    refTime: Number.MAX_SAFE_INTEGER,
+    proofSize: Number.MAX_SAFE_INTEGER,
+  }) as WeightV2;
+
+  const send = (
+    messageName: "award" | "distributeRewards",
+    ...params: any[]
+  ) => {
+    // LOADING
+    setIsLoading(true);
+
+    contract.query[messageName](
+      accountAddress,
       {
-        gasLimit,
+        gasLimit: gasLimitToSimulate,
       },
-      "5CMM6aqxmXvUyKGTxvEXb4zpkeK7HxYepmcJjh9zWkzr5Lbg",
-      5
-    )
-      .signAndSend(account?.address, (result) => {
-        console.log(result);
-      })
-      .then((finalResult) => {
-        console.log(finalResult);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
+      ...params
+    ).then(({ gasRequired }) => {
+      const gasLimit = API.registry.createType(
+        "WeightV2",
+        gasRequired
+      ) as WeightV2;
+
+      contract.tx[messageName](
+        {
+          gasLimit,
+        },
+        ...params
+      )
+        .signAndSend(accountAddress, (result) => {
+          console.log({ result });
+        })
+        .then((finalResult) => {
+          setIsLoading(false);
+          setIsFinished(true);
+
+          console.log({ finalResult });
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          setIsError(true);
+          setIsFinished(true);
+
+          console.error({ error });
+        });
+    });
+  };
+
+  return { send };
 };
 
 export default useTransaction;

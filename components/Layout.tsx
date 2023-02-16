@@ -1,4 +1,5 @@
 import syndeoLogo from "@/public/syndeo.png";
+import { polkadotAPIAtom } from "@/states/polkadotAPI.atom";
 import {
   AppBar as MUIAppBar,
   Box,
@@ -7,8 +8,11 @@ import {
   styled,
   Toolbar as MUIToolbar,
 } from "@mui/material";
+import { WsProvider, ApiPromise } from "@polkadot/api";
+import { useAtom } from "jotai";
 import Head from "next/head";
 import Image from "next/image";
+import { useEffect } from "react";
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -22,6 +26,20 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { name: "description", content: APP_DESCRIPTION },
     { name: "viewport", content: "initial-scale=1, width=device-width" },
   ];
+
+  const [_, setAPI] = useAtom(polkadotAPIAtom);
+
+  useEffect(() => {
+    const CHAINS = {
+      ROCOCO: "wss://rococo-contracts-rpc.polkadot.io",
+      SHIBUYA: "wss://shibuya-rpc.dwellir.com",
+    };
+
+    const provider = new WsProvider(CHAINS.ROCOCO);
+    ApiPromise.create({ provider }).then((api) => {
+      setAPI(api);
+    });
+  }, [setAPI]);
 
   return (
     <>

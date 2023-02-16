@@ -1,14 +1,13 @@
-import { Button, Paper, Stack, Typography } from "@mui/material";
-import { Wallet, WalletAccount } from "@talismn/connect-wallets";
+import { accountAtom } from "@/states/account.atom";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import WalletSelector from "./WalletSelector";
-import LogoutIcon from "@mui/icons-material/Logout";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Button, Paper, Stack, Typography } from "@mui/material";
+import { WalletAccount } from "@talismn/connect-wallets";
+import { useAtom } from "jotai";
+import WalletSelector from "./WalletSelector";
 
-interface WalletWidgetProps {
-  account?: WalletAccount;
-  setAccount: (account: WalletAccount) => void;
-}
+interface WalletWidgetProps {}
 
 const truncate = (address: string): string => {
   if (!address) return "";
@@ -19,7 +18,9 @@ const truncate = (address: string): string => {
   return address.length > h + t ? [head, tail].join("...") : address;
 };
 
-const WalletWidget: React.FC<WalletWidgetProps> = ({ account, setAccount }) => {
+const WalletWidget: React.FC<WalletWidgetProps> = () => {
+  const [account, setAccount] = useAtom(accountAtom);
+
   return (
     <Paper>
       <Stack p={2} mb={4} direction="row" justifyContent="space-between">
@@ -44,7 +45,7 @@ const WalletWidget: React.FC<WalletWidgetProps> = ({ account, setAccount }) => {
             Logout
           </Button>
         ) : (
-          <WalletSelector setAccount={setAccount} />
+          <WalletSelector />
         )}
       </Stack>
     </Paper>

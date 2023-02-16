@@ -1,5 +1,6 @@
 import { NextLinkComposed } from "@/components/Link";
 import useQuery from "@/hooks/useQuery";
+import useTransaction from "@/hooks/useTransaction";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -21,14 +22,14 @@ const ACTION_LABEL = "Distribute rewards";
 const SUCCESS_MESSAGE = "Rewards distributed correctly!";
 const ERROR_MESSAGE = "An error occured, please try again";
 
-// TODO: Use transaction to send to contract
 const Distribute: React.FC<DistributeProps> = () => {
   const { points, awardedMembers, funds } = useQuery();
 
   // Status management
   const [isLoading, setIsLoading] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const [isError, setIsError] = useState(false);
+  const { send } = useTransaction(setIsLoading, setIsFinished, setIsError);
 
   const organizationData = [
     {
@@ -48,16 +49,11 @@ const Distribute: React.FC<DistributeProps> = () => {
     },
   ];
 
-  // TODO: Submit transaction and remove simulation
   const handleSubmit = () => {
     console.log("DISTRIBUTE!");
 
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      setSnackbarOpen(true);
-    }, 4000);
+    // TODO: Add funds
+    send("distributeRewards");
   };
 
   const handleSnackbarClose = (
@@ -68,7 +64,7 @@ const Distribute: React.FC<DistributeProps> = () => {
       return;
     }
 
-    setSnackbarOpen(false);
+    setIsFinished(false);
     setIsError(false);
   };
 
@@ -112,7 +108,7 @@ const Distribute: React.FC<DistributeProps> = () => {
       </LoadingButton>
 
       <Snackbar
-        open={snackbarOpen}
+        open={isFinished}
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
       >

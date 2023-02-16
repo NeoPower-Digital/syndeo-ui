@@ -1,4 +1,5 @@
 import { NextLinkComposed } from "@/components/Link";
+import useTransaction from "@/hooks/useTransaction";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -10,7 +11,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 interface AwardProps {}
 
@@ -22,26 +23,20 @@ const ACTION_LABEL = "Award points";
 const SUCCESS_MESSAGE = "Points awarded correctly!";
 const ERROR_MESSAGE = "An error occured, please try again";
 
-// TODO: Use transaction to send to contract
 const Award: React.FC<AwardProps> = () => {
-  const [recipient, setRecipient] = useState("");
-  const [points, setPoints] = useState(DEFAULT_POINTS);
+  const recipient = useRef("");
+  const points = useRef(DEFAULT_POINTS);
 
   // Status management
   const [isLoading, setIsLoading] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const [isError, setIsError] = useState(false);
+  const { send } = useTransaction(setIsLoading, setIsFinished, setIsError);
 
-  // TODO: Submit transaction and remove simulation
   const handleSubmit = () => {
-    console.log({ recipient, points });
+    console.log({ recipient: recipient.current, points: points.current });
 
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      setSnackbarOpen(true);
-    }, 4000);
+    send("award", recipient.current, points.current);
   };
 
   const handleSnackbarClose = (
@@ -52,7 +47,7 @@ const Award: React.FC<AwardProps> = () => {
       return;
     }
 
-    setSnackbarOpen(false);
+    setIsFinished(false);
     setIsError(false);
   };
 
@@ -76,10 +71,9 @@ const Award: React.FC<AwardProps> = () => {
           required
           id="recipient"
           label="👤 Recipient address"
-          value={recipient}
           autoComplete="off"
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setRecipient(event.target.value);
+            recipient.current = event.target.value;
           }}
           disabled={isLoading}
         />
@@ -97,9 +91,8 @@ const Award: React.FC<AwardProps> = () => {
             defaultValue={DEFAULT_POINTS}
             aria-label="points"
             valueLabelDisplay="on"
-            value={points}
             onChange={(event: Event, newValue: number | number[]) => {
-              setPoints(newValue as number);
+              points.current = newValue as number;
             }}
             disabled={isLoading}
           />
@@ -116,7 +109,7 @@ const Award: React.FC<AwardProps> = () => {
       </LoadingButton>
 
       <Snackbar
-        open={snackbarOpen}
+        open={isFinished}
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
       >
