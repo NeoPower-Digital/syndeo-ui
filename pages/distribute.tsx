@@ -51,6 +51,11 @@ const Distribute: React.FC<DistributeProps> = () => {
         <Typography variant="h4">{PAGE_TITLE}</Typography>
       </Stack>
 
+      <Typography>
+        Trigger the reward distribution for your organization to proportionally
+        reward members. After the distribution, all points will be reset.
+      </Typography>
+
       {organizationData.map(({ icon, value, label }, index) => (
         <Card key={index}>
           <CardContent>

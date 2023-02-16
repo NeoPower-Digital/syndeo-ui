@@ -31,7 +31,7 @@ const WalletWidget: React.FC<WalletWidgetProps> = ({ account, setAccount }) => {
           )}
 
           <Typography>
-            {account ? truncate(account?.address) : "Hey stranger"}
+            {account ? truncate(account?.address) : "Hi stranger!"}
           </Typography>
         </Stack>
 

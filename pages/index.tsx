@@ -10,7 +10,7 @@ const Home: React.FC<HomeProps> = ({ account }) => {
   const menuItems = [
     {
       path: "award",
-      label: "⭐ Award points",
+      label: "⭐ Award points (MEMBER)",
     },
     {
       path: "distribute",

@@ -1,5 +1,4 @@
 import Layout from "@/components/Layout";
-import WalletSelector from "@/components/WalletSelector";
 import WalletWidget from "@/components/WalletWidget";
 import createEmotionCache from "@/styles/createEmotionCache";
 import GlobalStyles from "@/styles/globals.style";
@@ -11,9 +10,7 @@ import {
   CssBaseline,
   Paper,
   responsiveFontSizes,
-  Stack,
   ThemeProvider,
-  Typography,
 } from "@mui/material";
 import { WalletAccount } from "@talismn/connect-wallets";
 import { useState } from "react";
@@ -46,7 +43,7 @@ export default function App({
           </Alert>
           <WalletWidget account={account} setAccount={setAccount} />
 
-          <Paper sx={{ p: 2 }} variant="outlined">
+          <Paper sx={{ p: 4 }} variant="outlined">
             <Component {...pageProps} account={account} />
           </Paper>
         </Layout>

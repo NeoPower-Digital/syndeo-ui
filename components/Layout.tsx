@@ -1,3 +1,4 @@
+import syndeoLogo from "@/public/syndeo.png";
 import {
   AppBar as MUIAppBar,
   Box,
@@ -5,10 +6,8 @@ import {
   Link,
   styled,
   Toolbar as MUIToolbar,
-  Typography,
 } from "@mui/material";
 import Head from "next/head";
-import syndeoLogo from "@/public/syndeo.png";
 import Image from "next/image";
 
 export interface LayoutProps {
@@ -36,21 +35,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       <AppBar elevation={0} enableColorOnDark>
         <Toolbar>
-          <Image
-            src={syndeoLogo}
-            alt="Picture of the author"
-            width={80}
-            height={52}
-          />
+          <Image src={syndeoLogo} alt="Syndeo logo" width={80} height={52} />
           <Link color="inherit" href="https://neopower.digital" target="_blank">
             Built by NeoPower
-          </Link>{" "}
+          </Link>
         </Toolbar>
       </AppBar>
 
       <LayoutOffset mb={6} />
 
       <Container maxWidth="sm">{children}</Container>
+
+      <LayoutOffset mb={6} />
     </>
   );
 };

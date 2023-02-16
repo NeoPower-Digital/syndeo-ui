@@ -37,12 +37,18 @@ const Award: React.FC<AwardProps> = () => {
         <Typography variant="h4">{PAGE_TITLE}</Typography>
       </Stack>
 
+      <Typography>
+        Send points to any other member to award them for their valuable
+        contributions to the organization!
+      </Typography>
+
       <Stack gap={2}>
         <TextField
           required
           id="recipient"
-          label="👤 Recipient"
+          label="👤 Recipient address"
           value={recipient}
+          autoComplete="off"
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setRecipient(event.target.value);
           }}
