@@ -40,6 +40,10 @@ export default function App({
             <Alert severity="info" sx={{ mb: 2 }}>
               UI for demo purposes (Network: {DEFAULT_CHAIN.NAME})
             </Alert>
+
+            <Alert severity="info" sx={{ mb: 2 }}>
+              Contract address: {DEFAULT_CHAIN.CONTRACT_ADDRESS}
+            </Alert>
             <WalletWidget />
 
             <Paper sx={{ p: 4 }} variant="outlined">

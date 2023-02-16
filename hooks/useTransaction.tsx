@@ -63,12 +63,11 @@ const useTransaction = (
       )
         .signAndSend(accountAddress, (result) => {
           console.log({ result });
-        })
-        .then((finalResult) => {
-          setIsLoading(false);
-          setIsFinished(true);
 
-          console.log({ finalResult });
+          if (result.status.isFinalized) {
+            setIsLoading(false);
+            setIsFinished(true);
+          }
         })
         .catch((error) => {
           setIsLoading(false);
