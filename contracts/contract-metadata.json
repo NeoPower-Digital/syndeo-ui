@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x9ba291a3a4a941a37488c0dc0eefc4a7438ba21978e5b1ab622031fa6d73d09e",
+    "hash": "0x8a1021c69d811fdf1f11f8924a6793ff747e37ad6ef20fcd374cced73300d9cc",
     "language": "ink! 4.0.0",
     "compiler": "rustc 1.67.1",
     "build_info": {
@@ -110,7 +110,7 @@
           {
             "docs": [],
             "indexed": false,
-            "label": "amount",
+            "label": "points",
             "type": {
               "displayName": ["u64"],
               "type": 4
@@ -119,6 +119,39 @@
         ],
         "docs": [],
         "label": "Award"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "recipient",
+            "type": {
+              "displayName": ["AccountId"],
+              "type": 0
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "reward",
+            "type": {
+              "displayName": ["Balance"],
+              "type": 13
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "points",
+            "type": {
+              "displayName": ["u64"],
+              "type": 4
+            }
+          }
+        ],
+        "docs": [],
+        "label": "RewardGranted"
       }
     ],
     "lang_error": {
@@ -216,7 +249,7 @@
             }
           },
           {
-            "label": "amount",
+            "label": "points",
             "type": {
               "displayName": ["u64"],
               "type": 4
@@ -234,7 +267,15 @@
         "selector": "0x9e710a0a"
       },
       {
-        "args": [],
+        "args": [
+          {
+            "label": "amount_to_distribute",
+            "type": {
+              "displayName": ["Option"],
+              "type": 12
+            }
+          }
+        ],
         "docs": [],
         "label": "distribute_rewards",
         "mutates": true,
@@ -248,38 +289,14 @@
       {
         "args": [],
         "docs": [],
-        "label": "get_funds",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": ["ink", "MessageResult"],
-          "type": 12
-        },
-        "selector": "0xfad1c8c6"
-      },
-      {
-        "args": [],
-        "docs": [],
-        "label": "get_total_points",
+        "label": "get_rewards_summary",
         "mutates": false,
         "payable": false,
         "returnType": {
           "displayName": ["ink", "MessageResult"],
           "type": 14
         },
-        "selector": "0x46d75ba2"
-      },
-      {
-        "args": [],
-        "docs": [],
-        "label": "get_number_of_recipients",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": ["ink", "MessageResult"],
-          "type": 14
-        },
-        "selector": "0xa255a7ac"
+        "selector": "0x56da71e0"
       },
       {
         "args": [],
@@ -289,7 +306,7 @@
         "payable": false,
         "returnType": {
           "displayName": ["ink", "MessageResult"],
-          "type": 14
+          "type": 16
         },
         "selector": "0xa52b0149"
       },
@@ -301,7 +318,7 @@
         "payable": false,
         "returnType": {
           "displayName": ["ink", "MessageResult"],
-          "type": 14
+          "type": 16
         },
         "selector": "0x27dbbbeb"
       }
@@ -658,20 +675,36 @@
               },
               {
                 "index": 5,
-                "name": "CannotAwardYourself"
+                "name": "AwardPointsMustBeGreaterThanZero"
               },
               {
                 "index": 6,
-                "name": "SenderIsNotMember"
+                "name": "CannotAwardYourself"
               },
               {
                 "index": 7,
+                "name": "SenderIsNotMember"
+              },
+              {
+                "index": 8,
                 "name": "RecipientIsNotMember"
+              },
+              {
+                "index": 9,
+                "name": "NullFunds"
+              },
+              {
+                "index": 10,
+                "name": "RewardExceedsContractBalance"
+              },
+              {
+                "index": 11,
+                "name": "NoRecipients"
               }
             ]
           }
         },
-        "path": ["syndeo", "syndeo", "ContractError"]
+        "path": ["syndeo", "errors", "ContractError"]
       }
     },
     {
@@ -681,9 +714,48 @@
           "variant": {
             "variants": [
               {
+                "index": 0,
+                "name": "None"
+              },
+              {
                 "fields": [
                   {
                     "type": 13
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 13
+          }
+        ],
+        "path": ["Option"]
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "primitive": "u128"
+        }
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 15
                   }
                 ],
                 "index": 0,
@@ -704,7 +776,7 @@
         "params": [
           {
             "name": "T",
-            "type": 13
+            "type": 15
           },
           {
             "name": "E",
@@ -715,15 +787,34 @@
       }
     },
     {
-      "id": 13,
+      "id": 15,
       "type": {
         "def": {
-          "primitive": "u128"
-        }
+          "composite": {
+            "fields": [
+              {
+                "name": "assigned_points",
+                "type": 4,
+                "typeName": "u64"
+              },
+              {
+                "name": "members_awarded",
+                "type": 4,
+                "typeName": "u64"
+              },
+              {
+                "name": "funds",
+                "type": 13,
+                "typeName": "Balance"
+              }
+            ]
+          }
+        },
+        "path": ["syndeo", "syndeo", "RewardsSummary"]
       }
     },
     {
-      "id": 14,
+      "id": 16,
       "type": {
         "def": {
           "variant": {

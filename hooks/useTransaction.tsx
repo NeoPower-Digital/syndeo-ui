@@ -1,17 +1,15 @@
+import { DEFAULT_CHAIN } from "@/constants/constants";
 import metadata from "@/contracts/contract-metadata.json";
 import { accountAtom } from "@/states/account.atom";
 import { polkadotAPIAtom } from "@/states/polkadotAPI.atom";
-import { ApiPromise } from "@polkadot/api";
 import { ContractPromise } from "@polkadot/api-contract";
 import { Signer } from "@polkadot/api/types";
 import { WeightV2 } from "@polkadot/types/interfaces";
 import { useAtom } from "jotai";
-import { isConstructSignatureDeclaration } from "typescript";
 
 const MESSAGE_NAME = "award";
 const RECIPIENT = "5CMM6aqxmXvUyKGTxvEXb4zpkeK7HxYepmcJjh9zWkzr5Lbg";
 const POINTS = 5;
-const CONTRACT_ADDRESS = "5HC1Xhr1qwFbX3enSNVftFKPDVKdk4y1ypVxs3LtWM9ss9eC";
 
 const useTransaction = (
   setIsLoading: (value: boolean) => void,
@@ -24,7 +22,11 @@ const useTransaction = (
   if (!API) return { send: () => {} };
 
   API.setSigner(account?.signer as Signer);
-  const contract = new ContractPromise(API, metadata, CONTRACT_ADDRESS);
+  const contract = new ContractPromise(
+    API,
+    metadata,
+    DEFAULT_CHAIN.CONTRACT_ADDRESS
+  );
 
   const accountAddress = account?.address || "";
 
