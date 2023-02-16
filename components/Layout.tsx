@@ -1,3 +1,4 @@
+import { DEFAULT_CHAIN } from "@/constants/constants";
 import syndeoLogo from "@/public/syndeo.png";
 import { polkadotAPIAtom } from "@/states/polkadotAPI.atom";
 import {
@@ -20,7 +21,7 @@ export interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const APP_TITLE = "Syndeo | Award contributions 🚀";
-  const APP_DESCRIPTION = "Contribute and award";
+  const APP_DESCRIPTION = "Rewards distribution system";
 
   const metas = [
     { name: "description", content: APP_DESCRIPTION },
@@ -30,15 +31,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [_, setAPI] = useAtom(polkadotAPIAtom);
 
   useEffect(() => {
-    const CHAINS = {
-      ROCOCO: "wss://rococo-contracts-rpc.polkadot.io",
-      SHIBUYA: "wss://shibuya-rpc.dwellir.com",
-    };
+    const provider = new WsProvider(DEFAULT_CHAIN);
 
-    const provider = new WsProvider(CHAINS.ROCOCO);
-    ApiPromise.create({ provider }).then((api) => {
-      setAPI(api);
-    });
+    ApiPromise.create({ provider }).then(setAPI);
   }, [setAPI]);
 
   return (
