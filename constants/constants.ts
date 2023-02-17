@@ -5,9 +5,14 @@ export const CHAINS = {
     CONTRACT_ADDRESS: "5CJospADQxocnDbs5kVTtwAbdvRvuwi4MmWuscesMWKsjuWR",
   },
   SHIBUYA: {
-    name: "Shibuya",
+    NAME: "Shibuya",
     URL: "wss://shibuya-rpc.dwellir.com",
-    CONTRACT_ADDRESS: "",
+    CONTRACT_ADDRESS: "YxvbzzFgdirmQwbAvFfHiDgDe9H8UazJDMa2HJSFaYfpWE2",
+  },
+  SHIDEN: {
+    NAME: "Shiden",
+    URL: "wss://shiden-rpc.dwellir.com",
+    CONTRACT_ADDRESS: "bFNGwRwVztSizW4JcmE8QRhAC1uKnaidrjuPzgqdASLZXXT",
   },
 };
 
