@@ -19,6 +19,8 @@
 - Use the "Switch chain" button at the top right corner.
 - Select one of the preloaded chains or customize your selection
 - Chain URL and contract address must be valid
+- You will be redirected to the home page
+- Connect your wallet again
 
 # Next.js
 

@@ -1,4 +1,6 @@
+import { accountAtom } from "@/states/account.atom";
 import { CHAINS, networkAtom } from "@/states/network.atom";
+import { polkadotAPIAtom } from "@/states/polkadotAPI.atom";
 import {
   Button,
   FormControl,
@@ -14,6 +16,7 @@ import {
 } from "@mui/material";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 interface NetworkContractModalProps {
   modalOpen: boolean;
@@ -25,6 +28,9 @@ const NetworkContractModal: React.FC<NetworkContractModalProps> = ({
   handleClose,
 }) => {
   const [network, setNetwork] = useAtom(networkAtom);
+  const [api, _] = useAtom(polkadotAPIAtom);
+  const [account, setAccount] = useAtom(accountAtom);
+  const router = useRouter();
 
   // Select input (chain name)
   const [selectedChain, setSelectedChain] = useState("");
@@ -43,6 +49,10 @@ const NetworkContractModal: React.FC<NetworkContractModalProps> = ({
       ...chain,
       contractAddress: contractAddressInput,
     });
+
+    api?.disconnect();
+    setAccount(null);
+    router.push("/");
 
     handleClose();
   };
