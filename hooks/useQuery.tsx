@@ -1,6 +1,6 @@
-import { DEFAULT_CHAIN } from "@/constants/constants";
 import metadata from "@/contracts/contract-metadata.json";
 import { accountAtom } from "@/states/account.atom";
+import { networkAtom } from "@/states/network.atom";
 import { polkadotAPIAtom } from "@/states/polkadotAPI.atom";
 import { ContractPromise } from "@polkadot/api-contract";
 import { Signer } from "@polkadot/api/types";
@@ -27,6 +27,7 @@ const emptyGetPromise = {
 };
 
 const useQuery = () => {
+  const [{ contractAddress }] = useAtom(networkAtom);
   const [account] = useAtom(accountAtom);
   const [api] = useAtom(polkadotAPIAtom);
 
@@ -35,11 +36,7 @@ const useQuery = () => {
   console.log("USE QUERY", { account, api });
 
   api.setSigner(account?.signer as Signer);
-  const contract = new ContractPromise(
-    api,
-    metadata,
-    DEFAULT_CHAIN.CONTRACT_ADDRESS
-  );
+  const contract = new ContractPromise(api, metadata, contractAddress);
 
   const accountAddress = account?.address || "";
 
@@ -52,6 +49,12 @@ const useQuery = () => {
   }) as WeightV2;
 
   const getPromise = (): Promise<OrgStats> => {
+    // TODO: Remove guard
+    console.log("🚀QUERY...", {
+      network: api.runtimeChain.toHuman(),
+      contract: contract.address.toHuman(),
+    });
+
     return contract!.query[MESSAGE](accountAddress!, {
       gasLimit: gasLimitToSimulate,
     }).then(({ output }) => {

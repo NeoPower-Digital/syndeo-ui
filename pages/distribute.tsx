@@ -1,6 +1,7 @@
 import { NextLinkComposed } from "@/components/Link";
 import useQuery, { emptyStats } from "@/hooks/useQuery";
 import useTransaction from "@/hooks/useTransaction";
+import { networkAtom } from "@/states/network.atom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -12,6 +13,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 
 interface DistributeProps {}
@@ -55,9 +57,9 @@ const Distribute: React.FC<DistributeProps> = () => {
   const [isError, setIsError] = useState(false);
   const { send } = useTransaction(setIsLoading, setIsFinished, setIsError);
   const { getPromise } = useQuery();
+  const [{ decimals }] = useAtom(networkAtom);
 
   useEffect(() => {
-    console.log("DISTRIBUTE EFFECT");
     setDataLoading(true);
 
     getPromise()
@@ -116,7 +118,7 @@ const Distribute: React.FC<DistributeProps> = () => {
                     : key !== "funds"
                     ? orgStats[key]
                     : parseFloat(orgStats[key].replace(/,/g, "")) /
-                      Math.pow(10, 12)}
+                      Math.pow(10, decimals || 12)}
                 </Typography>
                 <Typography color="text.secondary">{label}</Typography>
               </Stack>

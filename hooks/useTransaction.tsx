@@ -1,6 +1,6 @@
-import { DEFAULT_CHAIN } from "@/constants/constants";
 import metadata from "@/contracts/contract-metadata.json";
 import { accountAtom } from "@/states/account.atom";
+import { networkAtom } from "@/states/network.atom";
 import { polkadotAPIAtom } from "@/states/polkadotAPI.atom";
 import { ContractPromise } from "@polkadot/api-contract";
 import { Signer } from "@polkadot/api/types";
@@ -12,6 +12,7 @@ const useTransaction = (
   setIsFinished: (value: boolean) => void,
   setIsError: (value: boolean) => void
 ) => {
+  const [{ contractAddress }] = useAtom(networkAtom);
   const [account] = useAtom(accountAtom);
   const [api] = useAtom(polkadotAPIAtom);
 
@@ -20,11 +21,7 @@ const useTransaction = (
   console.log("USE TRANSACTION", { account, api });
 
   api.setSigner(account?.signer as Signer);
-  const contract = new ContractPromise(
-    api,
-    metadata,
-    DEFAULT_CHAIN.CONTRACT_ADDRESS
-  );
+  const contract = new ContractPromise(api, metadata, contractAddress);
 
   const accountAddress = account?.address || "";
 
@@ -42,6 +39,12 @@ const useTransaction = (
   ) => {
     // LOADING
     setIsLoading(true);
+
+    // TODO: Remove guard
+    console.log("🚀TX...", {
+      network: api.runtimeChain.toHuman(),
+      contract: contract.address.toHuman(),
+    });
 
     contract.query[messageName](
       accountAddress,

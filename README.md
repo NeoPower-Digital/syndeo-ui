@@ -5,7 +5,7 @@
 
 </div>
 
-> **Syndeo** is a decentralized platform that **motivates people to contribute to organizations by allowing members to award each other points**. The organization admins can then distribute treasury funds to members based on their points. This creates a **fair and transparent way to recognize people's contributions in organizations**, making the process **democratic and decentralized**.
+**Syndeo** is a decentralized platform that **motivates people to contribute to organizations by allowing members to award each other points**. The organization admins can then distribute treasury funds to members based on their points. This creates a **fair and transparent way to recognize people's contributions in organizations**, making the process **democratic and decentralized**.
 
 <div align="center">
 <img src="https://user-images.githubusercontent.com/107150702/219654972-905bc61b-0daa-4001-85ab-9e3398a873b2.png" width="60%" height="60%">
@@ -16,9 +16,11 @@
 
 ## Chain
 
-To change the chain that's being used:
-- Access `constants.ts`
-- Update the chain NAME, URL and CONTRACT_ADDRESS
+- Use the "Switch chain" button at the top right corner.
+- Select one of the preloaded chains or customize your selection
+- Chain URL and contract address must be valid
+- You will be redirected to the home page
+- Connect your wallet again
 
 # Next.js
 
