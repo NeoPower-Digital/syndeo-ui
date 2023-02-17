@@ -50,7 +50,6 @@ const NetworkContractModal: React.FC<NetworkContractModalProps> = ({
       contractAddress: contractAddressInput,
     });
 
-    api?.disconnect();
     setAccount(null);
     router.push("/");
 
