@@ -57,7 +57,6 @@ const Distribute: React.FC<DistributeProps> = () => {
   const { getPromise } = useQuery();
 
   useEffect(() => {
-    console.log("DISTRIBUTE EFFECT");
     setDataLoading(true);
 
     getPromise()

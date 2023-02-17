@@ -1,25 +1,38 @@
-import { DEFAULT_CHAIN } from "@/constants/constants";
 import syndeoLogo from "@/public/syndeo.png";
+import { networkAtom } from "@/states/network.atom";
 import { polkadotAPIAtom } from "@/states/polkadotAPI.atom";
+import SyncAltIcon from "@mui/icons-material/SyncAlt";
 import {
+  Alert,
   AppBar as MUIAppBar,
   Box,
+  Button,
   Container,
+  IconButton,
   Link,
+  Stack,
   styled,
   Toolbar as MUIToolbar,
 } from "@mui/material";
-import { WsProvider, ApiPromise } from "@polkadot/api";
+import { ApiPromise, WsProvider } from "@polkadot/api";
 import { useAtom } from "jotai";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import NetworkContractModal from "./NetworkContractModal";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 export interface LayoutProps {
   children: React.ReactNode;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleOpen = () => setModalOpen(true);
+  const handleClose = () => setModalOpen(false);
+
+  const [{ chainName, chainURL, contractAddress }] = useAtom(networkAtom);
+
   const APP_TITLE = "Syndeo | Award contributions 🚀";
   const APP_DESCRIPTION = "Rewards distribution system";
 
@@ -31,11 +44,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [_, setAPI] = useAtom(polkadotAPIAtom);
 
   useEffect(() => {
-    console.log("LAYOUT EFFECT");
-    const provider = new WsProvider(DEFAULT_CHAIN.URL);
+    const provider = new WsProvider(chainURL);
 
     ApiPromise.create({ provider }).then(setAPI);
-  }, []);
+  }, [chainURL]);
 
   return (
     <>
@@ -50,17 +62,52 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <AppBar elevation={0} enableColorOnDark>
         <Toolbar>
           <Image src={syndeoLogo} alt="Syndeo logo" width={80} height={52} />
-          <Link color="inherit" href="https://neopower.digital" target="_blank">
-            Built by NeoPower
-          </Link>
+
+          <Stack direction="row" gap={2} alignItems="center">
+            <Link
+              color="inherit"
+              href="https://neopower.digital"
+              target="_blank"
+            >
+              Built by NeoPower
+            </Link>
+
+            <IconButton
+              target="_blank"
+              href="https://github.com/NeoPower-Digital/syndeo-ui"
+            >
+              <GitHubIcon />
+            </IconButton>
+
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleOpen}
+              startIcon={<SyncAltIcon />}
+            >
+              Switch chain
+            </Button>
+          </Stack>
         </Toolbar>
       </AppBar>
 
       <LayoutOffset mb={6} />
 
-      <Container maxWidth="sm">{children}</Container>
+      <Container maxWidth="sm">
+        <Alert severity="info" sx={{ mb: 2 }}>
+          UI for demo purposes (Network: {chainName})
+        </Alert>
+
+        <Alert severity="info" sx={{ mb: 2 }}>
+          Contract address: {contractAddress}
+        </Alert>
+
+        {children}
+      </Container>
 
       <LayoutOffset mb={6} />
+
+      <NetworkContractModal modalOpen={modalOpen} handleClose={handleClose} />
     </>
   );
 };
